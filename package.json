@@ -1,0 +1,52 @@
+{
+  "name": "wifi-human-presence-motion-sensing",
+  "version": "1.0.0",
+  "description": "Desktop application for Wi-Fi-based human presence and motion sensing using CSI, Windows Wi-Fi RSSI/RTT, and physics-based signal simulation.",
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && node scripts/launch-electron.cjs\"",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.electron.json && vite build",
+    "preview": "vite preview",
+    "electron:start": "npm run build && node scripts/launch-electron.cjs --prod",
+    "package:exe": "npm run build && electron-builder --win portable",
+    "test": "tsc -p tsconfig.electron.json && node --experimental-strip-types --test tests/*.test.ts"
+  },
+  "build": {
+    "appId": "com.wifisensing.presence.monitor",
+    "productName": "Wi-Fi Presence Monitor",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "Wi-Fi-Presence-Monitor.exe"
+    }
+  },
+  "dependencies": {
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron": "^34.2.0",
+    "electron-builder": "^26.18.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.1",
+    "wait-on": "^8.0.2"
+  }
+}
